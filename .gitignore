@@ -1,0 +1,8 @@
+**/node_modules/
+
+# JetBrains-related
+.idea/
+*.iml
+*.iws
+*.ipr
+*.ids
