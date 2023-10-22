@@ -1,7 +1,7 @@
 
 export function Header(){
     return(
-        <div className={'w-full h-32'}>
+        <div className={'w-full h-14'}>
             Header
         </div>
     )
