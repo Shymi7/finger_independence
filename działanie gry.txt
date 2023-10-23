@@ -1,0 +1,5 @@
+1. zawsze widać 10 przycisków na klawiaturze
+2. każdy palec ma swój nr, od lewej do prawej 
+3. każdy palec to konkretny klawisz na pianinie (1 palec to 1 klawisz, 7 palec to 7 klawisz itd)
+4. training mode definiuje:
+	-jaka jest zapętlona sekwencja klawiszy do wciśnięcia (np. 1,2,3,4,7,8,9,10; 1,2; 1,3,2,4;)

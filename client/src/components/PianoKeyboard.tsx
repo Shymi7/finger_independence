@@ -9,9 +9,11 @@ export function PianoKeyboard(){
             <PianoKey keyChar={'x'} hasBlackKey={true}></PianoKey>
             <PianoKey keyChar={'c'} hasBlackKey={true}></PianoKey>
             <PianoKey keyChar={'v'} hasBlackKey={false}></PianoKey>
-            <PianoKey keyChar={'m'} hasBlackKey={true}></PianoKey>
+            <PianoKey keyChar={''} hasBlackKey={true}></PianoKey>
+            <PianoKey keyChar={''} hasBlackKey={true}></PianoKey>
+            <PianoKey keyChar={'m'} hasBlackKey={false}></PianoKey>
             <PianoKey keyChar={','} hasBlackKey={true}></PianoKey>
-            <PianoKey keyChar={'.'} hasBlackKey={false}></PianoKey>
+            <PianoKey keyChar={'.'} hasBlackKey={true}></PianoKey>
             <PianoKey keyChar={'/'} hasBlackKey={true}></PianoKey>
         </div>
     )
