@@ -5,8 +5,12 @@ import "./index.css"
 import {configureStore} from "@reduxjs/toolkit";
 import {Provider} from "react-redux";
 
+import trainingReducer from "./utils/Training.ts";
+
 const store = configureStore({
-    reducer:{},
+    reducer:{
+        training: trainingReducer
+    },
 })
 
 ReactDOM.createRoot(document.getElementById('root')!).render(

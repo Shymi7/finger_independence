@@ -4,7 +4,7 @@ export function PianoKeyboard(){
 
 
     return(
-        <div className={'w-full h-80 bg-gray-300 flex flex-row justify-center'}>
+        <div className={'w-full h-80 flex flex-row justify-center'}>
             <PianoKey keyChar={'z'} hasBlackKey={true}></PianoKey>
             <PianoKey keyChar={'x'} hasBlackKey={true}></PianoKey>
             <PianoKey keyChar={'c'} hasBlackKey={true}></PianoKey>

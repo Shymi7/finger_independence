@@ -1,4 +1,5 @@
 import {TrainingMode} from "./TrainingMode.ts";
+import {createSlice} from "@reduxjs/toolkit";
 
 export class Training {
     timeLeftMs: number;
@@ -21,14 +22,54 @@ export class Training {
             throw new Error("currentStep out of sync");
         }
     }
-
-    nextMove(): void {
-        if (this.currentStep + 1 >= this.trainingMode.keyPattern.length) {
-            this.currentStep = 0;
+    getNextStep(step:number):number{
+        if (step + 1 >= this.trainingMode.keyPattern.length) {
+            return 0;
         } else {
-            this.currentStep++;
+            return step+1;
         }
+    }
+
+    goToNextStep(): void {
+        this.currentStep = this.getNextStep(this.currentStep);
+    }
+
+    getXNextSteps(x:number): Array<number>{
+        let resultArray = new Array<number>();
+        let localCurrentStep = this.currentStep;
+
+        for(let i= 0; i < x; x++){
+            resultArray.push(this.trainingMode.keyPattern[localCurrentStep]);
+            localCurrentStep = this.getNextStep(localCurrentStep);
+        }
+
+        return resultArray;
     }
 
 
 }
+const defaultTrainingMode = new TrainingMode(
+    1,
+    "temp",
+    [1,2,3,4],
+    20,
+    "left",
+    "default",
+    "default"
+)
+
+const initialStateValue = { training: new Training(defaultTrainingMode) };
+
+export const trainingSlice = createSlice({
+    name: "training",
+    initialState: { value: initialStateValue },
+    reducers: {
+        setValue: (state, action) => {
+            state.value = action.payload;
+        },
+    },
+});
+
+export const { setValue } = trainingSlice.actions;
+
+export default trainingSlice.reducer;
