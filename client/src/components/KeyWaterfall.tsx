@@ -1,14 +1,20 @@
-import {useSelector} from "react-redux";
+import {useContext} from "react";
+import {TrainingContext} from "../utils/Training.ts";
+import {observer} from "mobx-react-lite";
+
 
 export  function KeyWaterfall(){
-    const training = useSelector((state: any) => state.training.value);
-    const waterfallLength = 4;
 
+    const Temp = observer(() => {
+        const training = useContext(TrainingContext);
+        return (
+            <span className={'text-white'}>Current step: {training.currentStep}</span>
+        )
+    })
 
-    // console.log(training.training.getXNextSteps(waterfallLength));
     return(
         <div className={'h-96'}>
-            {/*{training.training.getXNextSteps(waterfallLength)[2]}*/}
+            <Temp/>
         </div>
     )
 }

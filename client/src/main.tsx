@@ -1,22 +1,16 @@
-import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './components/App.tsx'
 import "./index.css"
-import {configureStore} from "@reduxjs/toolkit";
-import {Provider} from "react-redux";
+import {defaultTrainingMode, Training, TrainingContext} from "./utils/Training.ts";
+import {UserSettings, UserSettingsContext} from "./utils/UserSettings.ts";
 
-import trainingReducer from "./utils/Training.ts";
-
-const store = configureStore({
-    reducer:{
-        training: trainingReducer
-    },
-})
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
-  <React.StrictMode>
-      <Provider store={store}>
-          <App />
-      </Provider>
-  </React.StrictMode>,
+    // <React.StrictMode>
+    <UserSettingsContext.Provider value={new UserSettings()}>
+        <TrainingContext.Provider value={new Training(defaultTrainingMode)}>
+            <App/>
+        </TrainingContext.Provider>
+    </UserSettingsContext.Provider>
+    // </React.StrictMode>,
 )

@@ -1,20 +1,29 @@
 import {PianoKey} from "./PianoKey.tsx";
+import React, {useContext} from "react";
+import {UserSettingsContext} from "../utils/UserSettings.ts";
 
-export function PianoKeyboard(){
+export function PianoKeyboard() {
+
+    const userSettings = useContext(UserSettingsContext);
+
+    const pianoBlackKeysCombination = new Array<boolean>(true, true, true, false, true, true, false, true, true, true);
+
+    const keyElements = (): React.ReactElement[] => {
+        return userSettings.keyBindings.map((keyBinding, index) => {
+            return (
+                <PianoKey
+                    key={index}
+                    keyChar={keyBinding}
+                    hasBlackKey={pianoBlackKeysCombination[index]}
+                />
+            )
+        })
+    }
 
 
-    return(
+    return (
         <div className={'w-full h-80 flex flex-row justify-center'}>
-            <PianoKey keyChar={'z'} hasBlackKey={true}></PianoKey>
-            <PianoKey keyChar={'x'} hasBlackKey={true}></PianoKey>
-            <PianoKey keyChar={'c'} hasBlackKey={true}></PianoKey>
-            <PianoKey keyChar={'v'} hasBlackKey={false}></PianoKey>
-            <PianoKey keyChar={''} hasBlackKey={true}></PianoKey>
-            <PianoKey keyChar={''} hasBlackKey={true}></PianoKey>
-            <PianoKey keyChar={'m'} hasBlackKey={false}></PianoKey>
-            <PianoKey keyChar={','} hasBlackKey={true}></PianoKey>
-            <PianoKey keyChar={'.'} hasBlackKey={true}></PianoKey>
-            <PianoKey keyChar={'/'} hasBlackKey={true}></PianoKey>
+            {keyElements()}
         </div>
     )
 }
