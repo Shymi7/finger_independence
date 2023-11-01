@@ -29,13 +29,33 @@ export class UserSettings {
         this._trainingModeId = value;
     }
 
-    convertKeyBindingToKeyIndex(keyBinding: string): number{
+    convertKeyBindingToKeyIndex(keyBinding: string): number {
         const result = this.keyBindings.indexOf(keyBinding);
 
-        if(result < 0)
+        if (result < 0)
             console.log('Bad key');
 
         return result;
+    }
+
+    convertKeyBindingsToKeyIndexes(keyBindings: Array<string>) : Array<number>{
+        let resultArray = new Array<number>;
+
+        for(const keyBinding of keyBindings){
+            resultArray.push(this.convertKeyBindingToKeyIndex(keyBinding));
+        }
+
+        return resultArray;
+    }
+
+    convertIndexKeyToKeyBinding(keyIndex: number): string {
+        try {
+            return this.keyBindings[keyIndex];
+        } catch (e) {
+            console.log('Bad key index: ' + keyIndex);
+        }
+        //todo
+        return '';
     }
 }
 

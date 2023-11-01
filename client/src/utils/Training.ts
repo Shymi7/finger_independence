@@ -27,12 +27,25 @@ export class Training {
         });
     }
 
-    isMoveCorrect(fingerId: number): boolean {
-        try {
-            return this.trainingMode.keyPattern[this.currentStep] == fingerId;
-        } catch (e) {
-            throw new Error("currentStep out of sync");
+    isMoveCorrect(inputFingerIds: Array<number>): boolean{
+        for(const fingerId of this.trainingMode.keyPattern[this.currentStep]){
+            console.log(typeof inputFingerIds);
+            if(!inputFingerIds.includes(fingerId))
+                return false;
         }
+        return true;
+    }
+
+    isMoveIncludeWrongFingerId(fingerIds: Array<number>): boolean{
+        for(const fingerId of fingerIds){
+            if(this.trainingMode.keyPattern[this.currentStep].includes(fingerId))
+                return true;
+        }
+        return false;
+    }
+
+    getCurrentStepPattern():Array<number>{
+        return this.trainingMode.keyPattern[this.currentStep];
     }
 
     getNextStep(step: number): number {
@@ -47,11 +60,11 @@ export class Training {
         this.currentStep = this.getNextStep(this.currentStep);
     }
 
-    getXNextSteps(x: number): Array<number> {
-        let resultArray = new Array<number>();
+    getXNextSteps(x: number): Array<Array<number>> {
+        let resultArray = new Array<Array<number>>();
         let localCurrentStep = this.currentStep;
 
-        for (let i = 0; i < x; x++) {
+        for (let i = 0; i < x; i++) {
             resultArray.push(this.trainingMode.keyPattern[localCurrentStep]);
             localCurrentStep = this.getNextStep(localCurrentStep);
         }
@@ -62,10 +75,19 @@ export class Training {
 
 }
 
+const defaultKeyPattern = [
+    [0,2,9],
+    [1,3],
+    [0,1,3],
+    [7,8],
+    [0,1,2,3,4,5,6,7,8,9],
+    [5],
+];
+
 export const defaultTrainingMode = new TrainingMode(
     1,
     "temp",
-    [0, 1, 2, 3],
+    defaultKeyPattern,
     20,
     "left",
     "default",

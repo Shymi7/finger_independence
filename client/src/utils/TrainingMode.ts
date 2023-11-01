@@ -2,7 +2,7 @@ export class TrainingMode{
     id: number;
     name: string;
 
-    keyPattern: Array<number>;
+    keyPattern: Array<Array<number>>;
     durationSec: number;
 
     handMode: "left" | "right" | "dual";
@@ -12,7 +12,7 @@ export class TrainingMode{
     constructor(
         id: number,
         name: string,
-        keyPattern: number[],
+        keyPattern: Array<Array<number>>,
         durationSec: number,
         handMode: "left" | "right" | "dual",
         mistakesCheckingMode: "default" | "strict",

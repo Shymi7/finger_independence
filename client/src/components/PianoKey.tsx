@@ -12,14 +12,12 @@ export function PianoKey({keyChar, hasBlackKey}: PianoKeyProps) {
     addEventListener("keydown", (event) => {
         if (event.key === keyChar) {
             setIsKeyPressed(true);
-            console.log(event.key+"  /  down");
         }
     });
 
     addEventListener("keyup", (event) => {
         if (event.key === keyChar) {
             setIsKeyPressed(false);
-            console.log(event.key+"  /  up");
         }
     });
 
