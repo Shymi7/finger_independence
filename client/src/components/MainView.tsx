@@ -14,10 +14,21 @@ export function MainView() {
 
 
     addEventListener("keydown", (event) => {
-        if (!pressedKeys.includes(event.key)) {
-            pressedKeys.push(event.key);
-            console.log(userSettings.convertKeyBindingsToKeyIndexes(pressedKeys));
+        if (pressedKeys.includes(event.key))
+            return;
+
+        pressedKeys.push(event.key);
+        const pressedKeyIds = userSettings.convertKeyBindingsToKeyIndexes(pressedKeys);
+
+        if(training.isMoveIncludeWrongFingerId(pressedKeyIds)){
+            training.mistakesMade++;
+            return;
         }
+
+        if (training.isMoveCorrect(pressedKeyIds))
+            training.goToNextMove();
+        console.log(userSettings.convertKeyBindingsToKeyIndexes(pressedKeys));
+
 
     });
 
@@ -31,13 +42,13 @@ export function MainView() {
 
     return (
         <div className={'w-full h-full flex flex-row'}>
-            <HandInfo/>
+            <HandInfo hand={'left'}/>
             <div className={'flex flex-col grow-1'}>
                 <TrainingLiveInfo/>
                 <KeyWaterfall/>
                 <PianoKeyboard/>
             </div>
-            <HandInfo/>
+            <HandInfo hand={'right'}/>
 
         </div>
     )

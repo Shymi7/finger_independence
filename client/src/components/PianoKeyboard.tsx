@@ -12,9 +12,9 @@ export function PianoKeyboard() {
     const pianoBlackKeysCombination = new Array<boolean>(true, true, true, false, true, true, false, true, true, true);
 
 
-    setInterval(()=>{
-        training.goToNextStep();
-    }, 500);
+    // setInterval(()=>{
+    //     training.goToNextStep();
+    // }, 500);
 
     const keyElements = (): React.ReactElement[] => {
         return userSettings.keyBindings.map((keyBinding, index) => {

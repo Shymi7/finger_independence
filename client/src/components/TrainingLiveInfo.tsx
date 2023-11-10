@@ -8,7 +8,7 @@ export function TrainingLiveInfo() {
     const userSettings = useContext(UserSettingsContext);
 
     const currentMoves = () => {
-        return training.getCurrentStepPattern().map((fingerId: number) => (
+        return training.getCurrentMovePattern().map((fingerId: number) => (
             <span key={fingerId}>{fingerId}</span>
         ));
     }
@@ -16,10 +16,18 @@ export function TrainingLiveInfo() {
     const Temp = observer(() => {
         return (
             <div>
-                {currentMoves()}
+                <span className={'text-white font-bold text-xl'}>Mistakes made: {training.mistakesMade}</span>
             </div>
         );
     });
+
+    function Mistakes() {
+        return observer(() => {
+                return <span className={'text-white font-bold text-xl'}>Mistakes made: {training.mistakesMade}</span>
+
+            }
+        )
+    }
 
     return (
         <div>

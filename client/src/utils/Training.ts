@@ -1,34 +1,39 @@
 import {TrainingMode} from "./TrainingMode.ts";
 import {createContext} from "react";
 import {action, makeObservable, observable} from "mobx"
+import {TrainingScore} from "./TrainingScore.ts";
 
 export class Training {
-    timeLeftMs: number;
     trainingMode: TrainingMode;
+    trainingScore: TrainingScore;
 
-    currentStep: number;
+    timeOfStart: number;
+    currentMove: number;
+    mistakesMade: number;
 
 
     constructor(trainingMode: TrainingMode) {
         this.trainingMode = trainingMode;
+        this.trainingScore = new TrainingScore(this.trainingMode.id);
 
-        this.timeLeftMs = trainingMode.durationSec * 1000;
-        this.currentStep = 0;
+        this.timeOfStart = Date.now();
+        this.currentMove = 0;
+        this.mistakesMade = 0;
 
         makeObservable(this, {
-            currentStep: observable,
-            timeLeftMs: observable,
-
+            currentMove: observable,
+            // timeOfStart: observable,
+            mistakesMade: observable,
             // isMoveCorrect: computed,
             // getNextStep: computed,
             // getXNextSteps: computed,
 
-            goToNextStep: action,
+            goToNextMove: action,
         });
     }
 
     isMoveCorrect(inputFingerIds: Array<number>): boolean{
-        for(const fingerId of this.trainingMode.keyPattern[this.currentStep]){
+        for(const fingerId of this.trainingMode.keyPattern[this.currentMove]){
             console.log(typeof inputFingerIds);
             if(!inputFingerIds.includes(fingerId))
                 return false;
@@ -38,17 +43,17 @@ export class Training {
 
     isMoveIncludeWrongFingerId(fingerIds: Array<number>): boolean{
         for(const fingerId of fingerIds){
-            if(this.trainingMode.keyPattern[this.currentStep].includes(fingerId))
+            if(!this.trainingMode.keyPattern[this.currentMove].includes(fingerId))
                 return true;
         }
         return false;
     }
 
-    getCurrentStepPattern():Array<number>{
-        return this.trainingMode.keyPattern[this.currentStep];
+    getCurrentMovePattern():Array<number>{
+        return this.trainingMode.keyPattern[this.currentMove];
     }
 
-    getNextStep(step: number): number {
+    getNextMove(step: number): number {
         if (step + 1 >= this.trainingMode.keyPattern.length) {
             return 0;
         } else {
@@ -56,33 +61,71 @@ export class Training {
         }
     }
 
-    goToNextStep(): void {
-        this.currentStep = this.getNextStep(this.currentStep);
+    goToNextMove(): void {
+        this.currentMove = this.getNextMove(this.currentMove);
     }
 
-    getXNextSteps(x: number): Array<Array<number>> {
+    getXNextMoves(x: number): Array<Array<number>> {
         let resultArray = new Array<Array<number>>();
-        let localCurrentStep = this.currentStep;
+        let localCurrentMove = this.currentMove;
 
         for (let i = 0; i < x; i++) {
-            resultArray.push(this.trainingMode.keyPattern[localCurrentStep]);
-            localCurrentStep = this.getNextStep(localCurrentStep);
+            resultArray.push(this.trainingMode.keyPattern[localCurrentMove]);
+            localCurrentMove = this.getNextMove(localCurrentMove);
         }
 
         return resultArray;
     }
-
-
 }
 
-const defaultKeyPattern = [
-    [0,2,9],
+
+
+const tempKP1 = [
+    [0,2],
     [1,3],
-    [0,1,3],
-    [7,8],
-    [0,1,2,3,4,5,6,7,8,9],
-    [5],
 ];
+const tempKP2 = [
+    [0],
+    [1],
+    [2],
+    [3],
+];
+const tempKP3 = [
+    [0],
+    [0],
+    [1],
+    [1],
+    [2],
+    [2],
+    [3],
+    [3],
+];
+const tempKP4 = [
+    [0,2],
+    [0,2],
+    [1,3],
+    [1,3],
+];
+
+const tempKP5 = [
+    [6,8],
+    [7,9],
+];
+
+const tempKP6 = [
+    [6,8],
+    [6,8],
+    [7,9],
+    [7,9],
+];
+
+const tempKP7 = [
+    [0,2,6,8],
+    [1,3,7,9],
+];
+
+
+const defaultKeyPattern = tempKP7;
 
 export const defaultTrainingMode = new TrainingMode(
     1,
@@ -95,4 +138,7 @@ export const defaultTrainingMode = new TrainingMode(
 )
 
 export const TrainingContext = createContext<Training>(new Training(defaultTrainingMode));
+
+
+
 

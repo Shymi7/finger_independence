@@ -4,7 +4,7 @@ export class UserSettings {
     constructor() {
         //default key bindings
         this._keyBindings = new Array<string>(
-            'z', 'x', 'c', 'v', '', '', 'm', ',', '.', '/',
+            'z', 'x', 'c', 'v', 'b', 'n', 'm', ',', '.', '/',
         )
         this._trainingModeId = 1;
     }

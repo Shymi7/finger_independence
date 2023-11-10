@@ -9,7 +9,7 @@ export function KeyWaterfall() {
     const training = useContext(TrainingContext);
     const userSettings = useContext(UserSettingsContext);
 
-    const numberOfDisplayedMoves = 7;
+    const numberOfDisplayedMoves = 4;
     const numberOfKeys = 10;
 
     const keyWidthPercent = (Math.floor(1 / numberOfKeys * 100));
@@ -33,7 +33,7 @@ export function KeyWaterfall() {
                     <div
                         className={classNames(
                             'bg-gray-300 h-full flex flex-row justify-center items-center',
-                            'text-2xl text-accent-dark',
+                            'text-4xl font-bold text-accent-dark',
                         )}
 
                     >
@@ -54,7 +54,7 @@ export function KeyWaterfall() {
     }
 
     function rowsOfKeys() {
-        return (training.getXNextSteps(numberOfDisplayedMoves).reverse().map(fingerIds => {
+        return (training.getXNextMoves(numberOfDisplayedMoves).reverse().map(fingerIds => {
             return rowOfKeys(fingerIds);
         }))
     }
