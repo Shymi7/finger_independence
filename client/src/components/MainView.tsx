@@ -1,10 +1,11 @@
 import {PianoKeyboard} from "./PianoKeyboard.tsx";
 import {KeyWaterfall} from "./KeyWaterfall.tsx";
-import {useContext, useState} from "react";
-import {TrainingContext} from "../utils/Training.ts";
+import {createContext, useContext, useState} from "react";
+import {Training, TrainingContext} from "../utils/Training.ts";
 import {TrainingLiveInfo} from "./TrainingLiveInfo.tsx";
 import {HandInfo} from "./HandInfo.tsx";
 import {SettingsForm} from "./SettingsForm.tsx";
+import {trainingModesList} from "../utils/trainingModesList.ts";
 
 export function MainView() {
     const training = useContext(TrainingContext);
@@ -20,19 +21,28 @@ export function MainView() {
         training.keyReleased(event.key);
     });
 
+    function startTraining(selectedTrainingModeId: number) {
+        training.resetTraining(trainingModesList[selectedTrainingModeId]);
+        setIsTrainingStarted(true);
+    }
+
     return (
         <div className={'w-full h-full flex flex-row'}>
             <HandInfo hand={'left'}/>
             <div className={'flex flex-col grow-1'}>
-                {
-                    isTrainingStarted ?
-                        <div className={''}>
-                            <TrainingLiveInfo/>
-                            <KeyWaterfall/>
-                        </div>
-                        :
-                        <SettingsForm/>
-                }
+                <div className={'w-full h-96'}>
+                    {
+                        isTrainingStarted ?
+                            <div className={'w-full h-full'}>
+                                <TrainingLiveInfo/>
+                                <KeyWaterfall/>
+                            </div>
+                            :
+                            <SettingsForm
+                                startTrainingFn={(selectedTrainingModeId) => startTraining(selectedTrainingModeId)}/>
+                    }
+                </div>
+
 
                 <PianoKeyboard/>
             </div>

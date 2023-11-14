@@ -1,16 +1,16 @@
 import {TrainingMode} from "./TrainingMode.ts";
 
-export const trainingModeList = [
+export const trainingModesList = [
     new TrainingMode(
         0,
-        'Easy tutorial',
+        'Easy',
         [
             [0],
             [1],
             [2],
             [3],
         ],
-        10,
+        4,
         'left',
         'default',
         'default'
@@ -19,10 +19,10 @@ export const trainingModeList = [
         1,
         'Medium',
         [
-            [0],
-            [1],
-            [2],
-            [3],
+            [0,2],
+            [0,2],
+            [1,3],
+            [1,3],
         ],
         10,
         'left',
@@ -33,10 +33,22 @@ export const trainingModeList = [
         2,
         'Hard',
         [
-            [0],
-            [1],
-            [2],
-            [3],
+            [0,2,6,8],
+            [1,3,7,9],
+        ],
+        10,
+        'left',
+        'default',
+        'default'
+    ),
+    new TrainingMode(
+        3,
+        'Ultra hard',
+        [
+            [0,2,3,8,9],
+            [1,2,6,7],
+            [3,6,8,9],
+            [0,1,3,7,8,9],
         ],
         10,
         'left',

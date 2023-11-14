@@ -10,7 +10,7 @@ export class Training {
 
     userSettings: UserSettings;
 
-    timeOfStart: number;
+    timeOfStart: number | null;
     currentMove: number;
     mistakesMade: number;
 
@@ -23,7 +23,7 @@ export class Training {
 
         this.userSettings = new UserSettings();
 
-        this.timeOfStart = Date.now();
+        this.timeOfStart = null;
         this.currentMove = 0;
         this.mistakesMade = 0;
 
@@ -41,9 +41,25 @@ export class Training {
         });
     }
 
+    resetTraining(trainingMode: TrainingMode){
+        this.trainingMode = trainingMode;
+        this.trainingScore = new TrainingScore(this.trainingMode.id);
+
+        this.userSettings = new UserSettings();
+
+        this.timeOfStart = null;
+        this.currentMove = 0;
+        this.mistakesMade = 0;
+
+        this.pressedKeys = new Array<string>();
+    }
+
     keyPressed(key: string){
         if (this.pressedKeys.includes(key))
             return;
+
+        if(this.timeOfStart == null)
+            this.startCountdown();
 
         this.pressedKeys.push(key);
         const pressedKeyIds = this.userSettings.convertKeyBindingsToKeyIndexes(this.pressedKeys);
@@ -56,7 +72,6 @@ export class Training {
         if (this.isMoveCorrect(pressedKeyIds))
             this.goToNextMove();
 
-        console.log(this.userSettings.convertKeyBindingsToKeyIndexes(this.pressedKeys));
     }
 
     keyReleased(key: string){
@@ -66,9 +81,15 @@ export class Training {
         }
     }
 
+    startCountdown(){
+        this.timeOfStart = Date.now();
+        setTimeout(()=>{
+            console.log("finished");
+        }, this.trainingMode.durationSec * 1000)
+    }
+
     isMoveCorrect(inputFingerIds: Array<number>): boolean{
         for(const fingerId of this.trainingMode.keyPattern[this.currentMove]){
-            console.log(typeof inputFingerIds);
             if(!inputFingerIds.includes(fingerId))
                 return false;
         }
