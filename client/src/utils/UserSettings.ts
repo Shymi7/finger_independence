@@ -4,9 +4,11 @@ export class UserSettings {
     constructor() {
         //default key bindings
         this._keyBindings = new Array<string>(
-            'z', 'x', 'c', 'v', 'b', 'n', 'm', ',', '.', '/',
+            'z', 'x', 'c', 'v', '', '', 'm', ',', '.', '/',
         )
         this._trainingModeId = 1;
+
+        localStorage.setItem('UserSettings', JSON.stringify(this));
     }
 
     private _keyBindings: Array<string>;

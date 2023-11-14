@@ -1,24 +1,33 @@
 import {TrainingMode} from "./TrainingMode.ts";
-import {createContext} from "react";
+import {createContext, useContext} from "react";
 import {action, makeObservable, observable} from "mobx"
 import {TrainingScore} from "./TrainingScore.ts";
+import {UserSettings, UserSettingsContext} from "./UserSettings.ts";
 
 export class Training {
     trainingMode: TrainingMode;
     trainingScore: TrainingScore;
 
+    userSettings: UserSettings;
+
     timeOfStart: number;
     currentMove: number;
     mistakesMade: number;
+
+    pressedKeys: string[];
 
 
     constructor(trainingMode: TrainingMode) {
         this.trainingMode = trainingMode;
         this.trainingScore = new TrainingScore(this.trainingMode.id);
 
+        this.userSettings = new UserSettings();
+
         this.timeOfStart = Date.now();
         this.currentMove = 0;
         this.mistakesMade = 0;
+
+        this.pressedKeys = new Array<string>();
 
         makeObservable(this, {
             currentMove: observable,
@@ -30,6 +39,31 @@ export class Training {
 
             goToNextMove: action,
         });
+    }
+
+    keyPressed(key: string){
+        if (this.pressedKeys.includes(key))
+            return;
+
+        this.pressedKeys.push(key);
+        const pressedKeyIds = this.userSettings.convertKeyBindingsToKeyIndexes(this.pressedKeys);
+
+        if(this.isMoveIncludeWrongFingerId(pressedKeyIds)){
+            this.mistakesMade++;
+            return;
+        }
+
+        if (this.isMoveCorrect(pressedKeyIds))
+            this.goToNextMove();
+
+        console.log(this.userSettings.convertKeyBindingsToKeyIndexes(this.pressedKeys));
+    }
+
+    keyReleased(key: string){
+        const index = this.pressedKeys.indexOf(key);
+        if (index > -1) {
+            this.pressedKeys.splice(index, 1);
+        }
     }
 
     isMoveCorrect(inputFingerIds: Array<number>): boolean{
