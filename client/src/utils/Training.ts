@@ -13,6 +13,7 @@ export class Training {
     timeOfStart: number | null;
     currentMove: number;
     mistakesMade: number;
+    isTrainingEnded: boolean;
 
     pressedKeys: string[];
 
@@ -26,6 +27,7 @@ export class Training {
         this.timeOfStart = null;
         this.currentMove = 0;
         this.mistakesMade = 0;
+        this.isTrainingEnded = false;
 
         this.pressedKeys = new Array<string>();
 
@@ -33,11 +35,13 @@ export class Training {
             currentMove: observable,
             // timeOfStart: observable,
             mistakesMade: observable,
+            isTrainingEnded: observable,
             // isMoveCorrect: computed,
             // getNextStep: computed,
             // getXNextSteps: computed,
 
             goToNextMove: action,
+            finishTraining: action,
         });
     }
 
@@ -50,6 +54,7 @@ export class Training {
         this.timeOfStart = null;
         this.currentMove = 0;
         this.mistakesMade = 0;
+        this.isTrainingEnded = false;
 
         this.pressedKeys = new Array<string>();
     }
@@ -69,8 +74,10 @@ export class Training {
             return;
         }
 
-        if (this.isMoveCorrect(pressedKeyIds))
+        if (this.isMoveCorrect(pressedKeyIds)){
             this.goToNextMove();
+            this.trainingScore.timesOfRightMoves.push(Date.now());
+        }
 
     }
 
@@ -84,8 +91,13 @@ export class Training {
     startCountdown(){
         this.timeOfStart = Date.now();
         setTimeout(()=>{
-            console.log("finished");
+            this.finishTraining();
         }, this.trainingMode.durationSec * 1000)
+    }
+
+    finishTraining(){
+        console.log("finished");
+        this.isTrainingEnded = true;
     }
 
     isMoveCorrect(inputFingerIds: Array<number>): boolean{

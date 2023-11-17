@@ -69,7 +69,7 @@ export function KeyWaterfall() {
     });
 
     return (
-        <div className={'h-96'}>
+        <div className={'h-full'}>
             <Temp/>
         </div>
     )
