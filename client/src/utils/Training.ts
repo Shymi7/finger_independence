@@ -1,40 +1,107 @@
 import {TrainingMode} from "./TrainingMode.ts";
-import {createContext} from "react";
+import {createContext, useContext} from "react";
 import {action, makeObservable, observable} from "mobx"
 import {TrainingScore} from "./TrainingScore.ts";
+import {UserSettings, UserSettingsContext} from "./UserSettings.ts";
 
 export class Training {
     trainingMode: TrainingMode;
     trainingScore: TrainingScore;
 
-    timeOfStart: number;
+    userSettings: UserSettings;
+
+    timeOfStart: number | null;
     currentMove: number;
     mistakesMade: number;
+    isTrainingEnded: boolean;
+
+    pressedKeys: string[];
 
 
     constructor(trainingMode: TrainingMode) {
         this.trainingMode = trainingMode;
         this.trainingScore = new TrainingScore(this.trainingMode.id);
 
-        this.timeOfStart = Date.now();
+        this.userSettings = new UserSettings();
+
+        this.timeOfStart = null;
         this.currentMove = 0;
         this.mistakesMade = 0;
+        this.isTrainingEnded = false;
+
+        this.pressedKeys = new Array<string>();
 
         makeObservable(this, {
             currentMove: observable,
             // timeOfStart: observable,
             mistakesMade: observable,
+            isTrainingEnded: observable,
             // isMoveCorrect: computed,
             // getNextStep: computed,
             // getXNextSteps: computed,
 
             goToNextMove: action,
+            finishTraining: action,
         });
+    }
+
+    resetTraining(trainingMode: TrainingMode){
+        this.trainingMode = trainingMode;
+        this.trainingScore = new TrainingScore(this.trainingMode.id);
+
+        this.userSettings = new UserSettings();
+
+        this.timeOfStart = null;
+        this.currentMove = 0;
+        this.mistakesMade = 0;
+        this.isTrainingEnded = false;
+
+        this.pressedKeys = new Array<string>();
+    }
+
+    keyPressed(key: string){
+        if (this.pressedKeys.includes(key))
+            return;
+
+        if(this.timeOfStart == null)
+            this.startCountdown();
+
+        this.pressedKeys.push(key);
+        const pressedKeyIds = this.userSettings.convertKeyBindingsToKeyIndexes(this.pressedKeys);
+
+        if(this.isMoveIncludeWrongFingerId(pressedKeyIds)){
+            this.mistakesMade++;
+            return;
+        }
+
+        if (this.isMoveCorrect(pressedKeyIds)){
+            this.goToNextMove();
+            this.trainingScore.timesOfRightMoves.push(Date.now());
+        }
+
+    }
+
+    keyReleased(key: string){
+        const index = this.pressedKeys.indexOf(key);
+        if (index > -1) {
+            this.pressedKeys.splice(index, 1);
+        }
+    }
+
+    startCountdown(){
+        this.timeOfStart = Date.now();
+        setTimeout(()=>{
+            this.finishTraining();
+        }, this.trainingMode.durationSec * 1000)
+    }
+
+    finishTraining(){
+        console.log("finished");
+        this.isTrainingEnded = true;
     }
 
     isMoveCorrect(inputFingerIds: Array<number>): boolean{
         for(const fingerId of this.trainingMode.keyPattern[this.currentMove]){
-            console.log(typeof inputFingerIds);
             if(!inputFingerIds.includes(fingerId))
                 return false;
         }

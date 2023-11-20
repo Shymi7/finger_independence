@@ -1,18 +1,21 @@
-import React, {JSX, useContext} from "react";
-import {TrainingContext} from "../utils/Training.ts";
-import {observer} from "mobx-react-lite";
-import {UserSettingsContext} from "../utils/UserSettings.ts";
+import {TrainingMode} from "../utils/TrainingMode.ts";
+import React, {JSX, useState} from "react";
 import * as classNames from "classnames";
+import {Training} from "../utils/Training.ts";
 
 
-export function KeyWaterfall() {
-    const training = useContext(TrainingContext);
-    const userSettings = useContext(UserSettingsContext);
-
+interface TrainingModeInfoProps{
+    trainingMode: TrainingMode,
+    chooseTrainingModeFn: () => void,
+}
+export function TrainingModeInfo({trainingMode, chooseTrainingModeFn}: TrainingModeInfoProps){
     const numberOfDisplayedMoves = 4;
     const numberOfKeys = 10;
 
     const keyWidthPercent = (Math.floor(1 / numberOfKeys * 100));
+    const training = new Training(trainingMode);
+
+    const [isHighlighted, setIsHighlighted] = useState(false);
 
     function rowOfKeys(fingerIds: Array<number>) {
         let keyElements: Array<JSX.Element> = new Array<React.JSX.Element>();
@@ -22,7 +25,7 @@ export function KeyWaterfall() {
                 <div
                     className={classNames(
                         'bg-gray-300 h-full overflow-hidden absolute top-0 right-0',
-                        'rounded-lg border-2 border-accent'
+                        'rounded border-2 border-accent'
                     )}
                     key={Math.random()}
                     style={{
@@ -37,7 +40,7 @@ export function KeyWaterfall() {
                         )}
 
                     >
-                        {userSettings.convertIndexKeyToKeyBinding(fingerId)}
+
                     </div>
                 </div>
             )
@@ -60,17 +63,24 @@ export function KeyWaterfall() {
     }
 
 
-    const Temp = observer(() => {
-        return (
-            <div className={'w-full h-full'}>
+    return(
+        <div
+            className={classNames(
+                'w-full h-28 border-accent-dark rounded-2xl',
+                'text-white text-xl my-2 p-2 flex flex-row',
+                isHighlighted ? ' bg-gray-600 border-4' : ' bg-dark-custom border-2'
+            )}
+            onMouseEnter={()=>{setIsHighlighted(true)}}
+            onMouseLeave={()=>{setIsHighlighted(false)}}
+            onClick={()=>{chooseTrainingModeFn()}}
+        >
+            <div className={'flex flex-row w-1/2'}>
+                {trainingMode.name}
+
+            </div>
+            <div className={'w-1/2'}>
                 {rowsOfKeys()}
             </div>
-        );
-    });
-
-    return (
-        <div className={'h-full'}>
-            <Temp/>
         </div>
     )
 }
