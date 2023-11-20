@@ -10,7 +10,7 @@ export const trainingModesList = [
             [2],
             [3],
         ],
-        4,
+        60,
         'left',
         'default',
         'default'
@@ -24,7 +24,7 @@ export const trainingModesList = [
             [1,3],
             [1,3],
         ],
-        10,
+        60,
         'left',
         'default',
         'default'
@@ -36,7 +36,7 @@ export const trainingModesList = [
             [0,2,6,8],
             [1,3,7,9],
         ],
-        10,
+        60,
         'left',
         'default',
         'default'
@@ -50,7 +50,7 @@ export const trainingModesList = [
             [3,6,8,9],
             [0,1,3,7,8,9],
         ],
-        10,
+        60,
         'left',
         'default',
         'default'

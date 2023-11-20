@@ -8,7 +8,7 @@ export class UserSettings {
         )
         this._trainingModeId = 1;
 
-        localStorage.setItem('UserSettings', JSON.stringify(this));
+        // localStorage.setItem('UserSettings', JSON.stringify(this));
     }
 
     private _keyBindings: Array<string>;
