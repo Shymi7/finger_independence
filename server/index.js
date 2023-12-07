@@ -15,6 +15,8 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 // Routes
 app.use('/api/auth', require('./routes/auth'));
+app.use('/api/score', require('./routes/score')); // Add this line
+
 
 // Start server
 app.listen(PORT, () => {

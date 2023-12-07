@@ -35,7 +35,10 @@ export function TrainingScoreInfoChart({dataArray} : TrainingScoreInfoChartProps
         plugins: {
             title: {
                 display: true,
-                text: 'Chart.js Line Chart - Cubic interpolation mode'
+                text: 'Keys pressed each second'
+            },
+            legend: {
+                display: false
             },
         },
         interaction: {
@@ -52,7 +55,7 @@ export function TrainingScoreInfoChart({dataArray} : TrainingScoreInfoChartProps
                 display: true,
                 title: {
                     display: true,
-                    text: 'Value'
+                    text: 'Number of keys'
                 },
                 suggestedMin: 0,
             }
@@ -67,10 +70,10 @@ export function TrainingScoreInfoChart({dataArray} : TrainingScoreInfoChartProps
         labels,
         datasets: [
             {
-                label: 'Dataset 1',
+                label: '',
                 data: dataArray,
                 borderColor: twConfig.theme.colors.accent,
-                backgroundColor: '#ffffff',
+                backgroundColor: '#ffffff00',
                 tension: 0.4
 
             },

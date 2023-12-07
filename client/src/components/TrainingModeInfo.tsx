@@ -7,8 +7,9 @@ import {Training} from "../utils/Training.ts";
 interface TrainingModeInfoProps{
     trainingMode: TrainingMode,
     chooseTrainingModeFn: () => void,
+    isSelected: boolean,
 }
-export function TrainingModeInfo({trainingMode, chooseTrainingModeFn}: TrainingModeInfoProps){
+export function TrainingModeInfo({trainingMode, chooseTrainingModeFn, isSelected}: TrainingModeInfoProps){
     const numberOfDisplayedMoves = 4;
     const numberOfKeys = 10;
 
@@ -62,13 +63,26 @@ export function TrainingModeInfo({trainingMode, chooseTrainingModeFn}: TrainingM
         }))
     }
 
+    function getStylingAccordingToState():string{
+        if(!isHighlighted && !isSelected)
+            return 'bg-dark-custom border-2';
+
+        if(isHighlighted && !isSelected)
+            return 'bg-dark-custom-light border-2';
+
+        if(!isHighlighted && isSelected)
+            return 'bg-accent-dark border-0';
+
+        return 'bg-dark-custom border-2';
+    }
+
 
     return(
         <div
             className={classNames(
                 'w-full h-28 border-accent-dark rounded-2xl',
                 'text-white text-xl my-2 p-2 flex flex-row',
-                isHighlighted ? ' bg-gray-600 border-4' : ' bg-dark-custom border-2'
+                getStylingAccordingToState()
             )}
             onMouseEnter={()=>{setIsHighlighted(true)}}
             onMouseLeave={()=>{setIsHighlighted(false)}}
