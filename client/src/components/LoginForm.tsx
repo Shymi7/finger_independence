@@ -1,9 +1,17 @@
 import {useState} from "react";
 import classNames from "classnames";
+import {AuthService} from "../utils/AuthService.ts";
 
 export function LoginForm(){
     const [loginInput, setLoginInput] = useState<string>('');
     const [passwordInput, setPasswordInput] = useState<string>('');
+
+    const authService = new AuthService();
+
+    function handleLoginBtn(){
+        authService.login(loginInput, passwordInput);
+    }
+
 
     const inputStyle = classNames(
         'w-1/2 h-12 rounded-2xl text-accent font-bold text-2xl text-center mt-10'
@@ -39,6 +47,7 @@ export function LoginForm(){
                 />
                 <button
                     className={'w-1/2 h-12 bg-accent rounded-2xl text-white font-bold text-2xl text-center mt-10'}
+                    onClick={handleLoginBtn}
                 >
                     Log in
                 </button>

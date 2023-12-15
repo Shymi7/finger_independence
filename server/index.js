@@ -2,12 +2,16 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const {password, dbConnectionString} = require("./config");
+const cors = require('cors');
+
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Connect to MongoDB
 mongoose.connect(dbConnectionString, {useNewUrlParser: true, useUnifiedTopology: true});
+
+app.use(cors());
 
 // Middleware
 app.use(bodyParser.json());
