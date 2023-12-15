@@ -8,3 +8,6 @@
 *.ids
 
 .gitignore
+
+config.js
+**/config.js

@@ -1,5 +1,6 @@
 import {useContext} from "react";
 import {TrainingContext} from "../utils/Training.ts";
+import {TrainingScoreInfoChart} from "./TrainingScoreInfoChart.tsx";
 
 export function TrainingScoreInfo(){
     const training = useContext(TrainingContext);
@@ -8,7 +9,9 @@ export function TrainingScoreInfo(){
 
     return(
         <div className={'w-full h-full'}>
-            {training.trainingScore.timesOfRightMoves}
+            <TrainingScoreInfoChart
+                dataArray={training.trainingScore.getArrayWithRightMovesInEachInterval(1000)}
+            />
         </div>
     )
 }

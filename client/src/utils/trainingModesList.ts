@@ -10,7 +10,7 @@ export const trainingModesList = [
             [2],
             [3],
         ],
-        60,
+        3,
         'left',
         'default',
         'default'

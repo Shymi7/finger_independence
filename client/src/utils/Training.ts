@@ -98,6 +98,7 @@ export class Training {
     finishTraining(){
         console.log("finished");
         this.isTrainingEnded = true;
+        console.log(this.trainingScore.getArrayWithRightMovesInEachInterval(1000));
     }
 
     isMoveCorrect(inputFingerIds: Array<number>): boolean{

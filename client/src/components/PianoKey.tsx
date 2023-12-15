@@ -39,7 +39,7 @@ export function PianoKey({keyChar, hasBlackKey}: PianoKeyProps) {
 
             {
                 hasBlackKey &&
-                <div className={'bg-black absolute w-8 h-3/5 right-[-20px] top-0 z-50'}>
+                <div className={'bg-black absolute w-8 h-3/5 right-[-20px] top-0 z-10'}>
                 </div>
             }
         </div>

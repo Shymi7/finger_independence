@@ -12,6 +12,8 @@ export default {
         'accent': '#00866c',
         'accent-light': '#00cea9',
         'dark-custom': '#2d2d2d',
+        'dark-custom-light': '#414141',
+        'white-transparent': 'rgba(255,255,255,0.4)'
       },
     },
   },

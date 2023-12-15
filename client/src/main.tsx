@@ -5,6 +5,7 @@ import {defaultTrainingMode, Training, TrainingContext} from "./utils/Training.t
 import {UserSettings, UserSettingsContext} from "./utils/UserSettings.ts";
 
 
+
 ReactDOM.createRoot(document.getElementById('root')!).render(
     // <React.StrictMode>
     <UserSettingsContext.Provider value={new UserSettings()}>

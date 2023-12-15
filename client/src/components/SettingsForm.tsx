@@ -87,6 +87,7 @@ export function SettingsForm({startTrainingFn}: SettingsFormProps) {
                             chooseTrainingModeFn={()=>{
                                 setSelectedTrainingModeId(trainingMode.id);
                             }}
+                            isSelected={trainingMode.id == selectedTrainingModeId}
                         />
                     )
                 }
