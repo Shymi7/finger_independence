@@ -63,8 +63,9 @@ export function HandInfo({hand}: HandInfoProps) {
 
 
     return (
-        <div className={'h-full w-96 p-10 flex flex-row relative'}>
+        <div key={Math.random()} className={'h-full w-96 p-10 flex flex-row relative'}>
             <img
+                key={hand}
                 style={{
                     transform: hand == 'left' ? 'scaleX(-1)' : 'scaleX(1)',
                     width: "100%",

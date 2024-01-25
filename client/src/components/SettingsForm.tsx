@@ -78,21 +78,42 @@ export function SettingsForm({startTrainingFn}: SettingsFormProps) {
                     Start
                 </button>
             </div>
-            <div className={'w-1/2 h-full overflow-y-scroll no-scrollbar border-accent-light'}>
-                {
-                    trainingModesList.map(
-                        trainingMode => <TrainingModeInfo
-                            key={trainingMode.id}
-                            trainingMode={trainingMode}
-                            chooseTrainingModeFn={()=>{
-                                setSelectedTrainingModeId(trainingMode.id);
-                            }}
-                            isSelected={trainingMode.id == selectedTrainingModeId}
-                        />
-                    )
-                }
-            </div>
+            {/*<div className={'relative w-1/2 h-full overflow-y-scroll no-scrollbar border-accent-light'}>*/}
+            {/*    {*/}
+            {/*        trainingModesList.map(*/}
+            {/*            trainingMode => <TrainingModeInfo*/}
+            {/*                key={trainingMode.id}*/}
+            {/*                trainingMode={trainingMode}*/}
+            {/*                chooseTrainingModeFn={()=>{*/}
+            {/*                    setSelectedTrainingModeId(trainingMode.id);*/}
+            {/*                }}*/}
+            {/*                isSelected={trainingMode.id == selectedTrainingModeId}*/}
+            {/*            />*/}
+            {/*        )*/}
+            {/*    }*/}
+            {/*    <div className="absolute bottom-0 left-0 w-full h-20 text-white p-4 bg-gradient-to-b from-transparent to-dark-custom">*/}
 
+            {/*    </div>*/}
+            {/*</div>*/}
+            <div className="relative w-1/2 h-full">
+                <div className="overflow-y-scroll no-scrollbar h-full border-accent-light">
+                    {
+                        trainingModesList.map(
+                            trainingMode => <TrainingModeInfo
+                                key={trainingMode.id}
+                                trainingMode={trainingMode}
+                                chooseTrainingModeFn={()=>{
+                                    setSelectedTrainingModeId(trainingMode.id);
+                                }}
+                                isSelected={trainingMode.id == selectedTrainingModeId}
+                            />
+                        )
+                    }
+                </div>
+                <div className="absolute bottom-0 left-0 w-full h-20 text-white p-4 bg-gradient-to-b from-transparent to-dark-custom">
+
+                </div>
+            </div>
 
         </div>
     )

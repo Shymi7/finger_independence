@@ -15,7 +15,7 @@ export function TrainingLiveInfo() {
 
     const Temp = observer(() => {
         return (
-            <div>
+            <div className={'h-10'}>
                 <span className={'text-white font-bold text-xl'}>Mistakes made: {training.mistakesMade}</span>
             </div>
         );
@@ -23,29 +23,14 @@ export function TrainingLiveInfo() {
 
     function Mistakes() {
         return observer(() => {
-                return <span className={'text-white font-bold text-xl'}>Mistakes made: {training.mistakesMade}</span>
+                return <span className={'text-white font-bold text-xl h-8'}>Mistakes made: {training.mistakesMade}</span>
 
             }
         )
     }
 
     return (
-        <div>
-            <Temp/>
-        </div>
+        <Temp/>
     )
 
-    // return observer(() => {
-    //     const currentMoves = () => {
-    //         return training.getCurrentStepPattern().map((fingerId: number) => (
-    //             <span key={fingerId}>{fingerId}</span>
-    //         ));
-    //     }
-    //
-    //     return (
-    //         <div>
-    //             {currentMoves()}
-    //         </div>
-    //     );
-    // });
 }

@@ -2,16 +2,30 @@ import {useState} from "react";
 import classNames from "classnames";
 import {AuthService} from "../utils/AuthService.ts";
 
-export function LoginForm(){
+interface LoginFormProps{
+    loginSetState: () => void;
+}
+export function LoginForm( {loginSetState} : LoginFormProps){
     const [loginInput, setLoginInput] = useState<string>('');
     const [passwordInput, setPasswordInput] = useState<string>('');
 
     const authService = new AuthService();
 
-    function handleLoginBtn(){
-        authService.login(loginInput, passwordInput);
-    }
+    async function handleLoginBtn(){
+        try {
+            const userData = await AuthService.login(loginInput, passwordInput);
 
+            if (userData) {
+                console.log('Login successful:', userData);
+                AuthService.saveUserDataToLocalStorage(userData);
+                loginSetState();
+            } else {
+                console.log('Login failed: Invalid credentials or response');
+            }
+        } catch (error) {
+            console.error('Error during login:', error);
+        }
+    }
 
     const inputStyle = classNames(
         'w-1/2 h-12 rounded-2xl text-accent font-bold text-2xl text-center mt-10'

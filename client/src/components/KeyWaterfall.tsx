@@ -2,7 +2,7 @@ import React, {JSX, useContext} from "react";
 import {TrainingContext} from "../utils/Training.ts";
 import {observer} from "mobx-react-lite";
 import {UserSettingsContext} from "../utils/UserSettings.ts";
-import * as classNames from "classnames";
+import classNames from "classnames";
 
 
 export function KeyWaterfall() {

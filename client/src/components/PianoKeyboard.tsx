@@ -26,7 +26,7 @@ export function PianoKeyboard() {
 
 
     return (
-        <div className={'w-full h-80 flex flex-row justify-center'}>
+        <div className={'w-full h-80 flex flex-row justify-center mt-12'}>
             {keyElements()}
         </div>
     )

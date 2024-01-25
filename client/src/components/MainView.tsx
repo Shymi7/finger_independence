@@ -59,26 +59,14 @@ export function MainView() {
                     result()
                 }
             </div>
-            // <div className={'w-full h-96'}>
-            //     {
-            //         (isTrainingStarted && !training.isTrainingEnded) ?
-            //             <div className={'w-full h-full'}>
-            //                 <TrainingLiveInfo/>
-            //                 <KeyWaterfall/>
-            //             </div>
-            //             :
-            //             <SettingsForm
-            //                 startTrainingFn={(selectedTrainingModeId) => startTraining(selectedTrainingModeId)}/>
-            //     }
-            // </div>
         )
     })
 
 
     return (
-        <div className={'w-full h-full flex flex-row'}>
+        <div className={'w-full h-full flex flex-row pl-32 pt-10'}>
             <HandInfo hand={'left'}/>
-            <div className={'flex flex-col grow-1'}>
+            <div className={'flex flex-col '}>
 
                 <DynamicView/>
 
