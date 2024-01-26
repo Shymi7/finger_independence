@@ -10,7 +10,7 @@ import {PianoKeyboard} from "../components/PianoKeyboard.tsx"; // Adjust the imp
 describe('RegisterForm Integration Tests', () => {
 
     test('Input fields change color when invalid input is provided', () => {
-        render(<RegisterForm/>);
+        render(<RegisterForm registerSetState={()=>{}}/>);
 
         const loginInput = screen.getByPlaceholderText('enter login');
         const passwordInput = screen.getByPlaceholderText('enter password');
@@ -25,7 +25,7 @@ describe('RegisterForm Integration Tests', () => {
     });
 
     test('Register button is disabled when input is invalid', () => {
-        render(<RegisterForm/>);
+        render(<RegisterForm registerSetState={()=>{}}/>);
 
         const loginInput = screen.getByPlaceholderText('enter login');
         const passwordInput = screen.getByPlaceholderText('enter password');
@@ -40,7 +40,7 @@ describe('RegisterForm Integration Tests', () => {
     });
 
     test('Register button is enabled when input is valid', () => {
-        render(<RegisterForm/>);
+        render(<RegisterForm registerSetState={()=>{}}/>);
 
         const loginInput = screen.getByPlaceholderText('enter login');
         const passwordInput = screen.getByPlaceholderText('enter password');

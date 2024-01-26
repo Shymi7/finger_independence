@@ -98,7 +98,9 @@ export function Header() {
             }
             {
                 loginOrRegister == 'register' &&
-                <RegisterForm/>
+                <RegisterForm registerSetState={()=>{
+                    setLoginOrRegister('none');
+                }}/>
             }
 
         </div>

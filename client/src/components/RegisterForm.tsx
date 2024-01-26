@@ -2,7 +2,10 @@ import { useState } from "react";
 import classNames from "classnames";
 import { AuthService } from "../utils/AuthService.ts";
 
-export default function RegisterForm() {
+interface RegisterFormProps{
+    registerSetState: () => void;
+}
+export default function RegisterForm({registerSetState} : RegisterFormProps) {
     const [loginInput, setLoginInput] = useState<string>('');
     const [passwordInput, setPasswordInput] = useState<string>('');
     const [repeatPasswordInput, setRepeatPasswordInput] = useState<string>('');
@@ -18,6 +21,7 @@ export default function RegisterForm() {
             if (userData) {
                 console.log('Register successful:', userData);
                 AuthService.saveUserDataToLocalStorage(userData);
+                registerSetState();
             } else {
                 console.log('Register failed');
             }
@@ -70,7 +74,7 @@ export default function RegisterForm() {
                     }}
                 />
                 <button
-                    className={'w-1/2 h-12 rounded-2xl text-white font-bold text-2xl text-center mt-10'}
+                    className={'w-1/2 h-12 bg-accent rounded-2xl text-white font-bold text-2xl text-center mt-10'}
                     onClick={handleRegisterButton}
                     disabled={!isFormValid}
                 >
