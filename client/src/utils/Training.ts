@@ -199,7 +199,7 @@ export const defaultTrainingMode = new TrainingMode(
     1,
     "temp",
     defaultKeyPattern,
-    20,
+    99999,
     "left",
     "default",
     "default"
