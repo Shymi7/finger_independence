@@ -2,33 +2,22 @@ const TrainingScore = require("../model/TrainingScore");
 const express = require("express");
 const authenticateToken = require("../utils/authenticateToken");
 const router = express.Router();
+const mongoose = require('mongoose');
+
 
 
 router.post('/save-score', authenticateToken, async (req, res) => {
     try {
-        const {userId, trainingId, score} = req.body;
+        const { userId, username, trainingId, score } = req.body;
+        const overallScore = getSumOfArray(score); // Calculate the overall score
 
-        // Check if the user already has a score for this game
-        const existingScore = await TrainingScore.findOne({userId, trainingId});
+        // Create a new game score record
+        const newGameScore = new TrainingScore({ userId, username, trainingId, score, overallScore, dateSaved: new Date() });
+        await newGameScore.save();
 
-        // if (!existingScore || existingScore.score.reduce((acc, cur) => acc + cur, 0) < score.reduce((acc, cur) => acc + cur, 0)) {
-        if (!existingScore || getSumOfArray(existingScore.score) < getSumOfArray(score)) {
-
-            // Save or update the score
-            if (!existingScore) {
-                const newGameScore = new TrainingScore({userId, trainingId, score});
-                await newGameScore.save();
-            } else {
-                existingScore.score = score;
-                await existingScore.save();
-            }
-
-            res.status(200).json({message: 'Score saved successfully'});
-        } else {
-            res.status(200).json({message: 'Score is not higher, not saved'});
-        }
+        res.status(200).json({ message: 'Score saved successfully' });
     } catch (error) {
-        res.status(500).json({message: 'Internal server error'});
+        res.status(500).json({ message: 'Internal server error' });
     }
 });
 
@@ -64,6 +53,83 @@ router.get('/scores/:scoreId', authenticateToken, async (req, res) => {
         res.status(500).json({ message: 'Internal server error' });
     }
 });
+
+router.get('/world-records', async (req, res) => {
+    try {
+        const worldRecords = await TrainingScore.aggregate([
+            { $match: { trainingId: { $ne: null } } }, // Exclude records with null trainingId
+            { $sort: { overallScore: -1 } }, // Sort documents by overallScore descending
+            {
+                $group: {
+                    _id: "$trainingId",
+                    doc: { $first: "$$ROOT" } // Take the first document of each group as it has the max overallScore
+                }
+            },
+            {
+                $replaceRoot: { newRoot: "$doc" } // Replace the root to elevate the document
+            },
+            {
+                $project: {
+                    _id: 0,
+                    userId: 1,
+                    username: 1,
+                    trainingId: 1,
+                    score: 1,
+                    overallScore: 1,
+                    dateSaved: 1
+                }
+            }
+        ]);
+
+        res.status(200).json({ worldRecords });
+    } catch (error) {
+        res.status(500).json({ message: 'Internal server error' });
+    }
+});
+
+router.get('/user-best-results', authenticateToken, async (req, res) => {
+    try {
+        const userId = req.user.userId; // Extract userId from the authenticated user
+
+        // Aggregation to find the best score per trainingId (category) for the user
+        const bestResultsPerCategory = await TrainingScore.aggregate([
+            { $match: { userId: new mongoose.Types.ObjectId(userId) } },
+            { $sort: { trainingId: 1, overallScore: -1 } }, // Sort by trainingId and then by overallScore descending
+            {
+                $group: {
+                    _id: "$trainingId",
+                    doc: { $first: "$$ROOT" } // Take the document with the highest score in each category
+                }
+            },
+            {
+                $replaceRoot: { newRoot: "$doc" } // Elevate the document to the top level
+            },
+            { $sort: { overallScore: -1 } } // Optional: Sort the final output by overallScore descending
+        ]);
+
+        // Calculate the average number of trainings per day
+        const totalDays = (await TrainingScore.findOne({ userId: new mongoose.Types.ObjectId(userId) })
+            .sort({ dateSaved: 1 })
+            .then(doc => {
+                if (doc) {
+                    const firstDate = doc.dateSaved;
+                    const currentDate = new Date();
+                    return Math.max((currentDate - firstDate) / (1000 * 60 * 60 * 24), 1); // Ensure at least one day
+                }
+                return 1; // Default to one day to prevent division by zero
+            }));
+
+        const totalTrainings = await TrainingScore.countDocuments({ userId });
+        const averageTrainingsByDay = totalTrainings / totalDays;
+
+        res.status(200).json({ bestResultsPerCategory, averageTrainingsByDay });
+    } catch (error) {
+        res.status(500).json({ message: 'Internal server error', error });
+    }
+});
+
+
+
 
 function getSumOfArray(array) {
     let result = 0;

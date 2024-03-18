@@ -1,6 +1,6 @@
 import {TrainingMode} from "../utils/TrainingMode.ts";
 import React, {JSX, useState} from "react";
-import * as classNames from "classnames";
+import classNames from "classnames";
 import {Training} from "../utils/Training.ts";
 
 

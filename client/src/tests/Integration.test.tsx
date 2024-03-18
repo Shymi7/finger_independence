@@ -16,8 +16,8 @@ describe('RegisterForm Integration Tests', () => {
         const passwordInput = screen.getByPlaceholderText('enter password');
         const repeatPasswordInput = screen.getByPlaceholderText('repeat password');
 
-        fireEvent.change(loginInput, { target: { value: 'abc' } }); // Invalid login (less than 4 characters)
-        fireEvent.change(passwordInput, { target: { value: 'pass' } }); // Invalid password (no special character or uppercase letter)
+        fireEvent.change(loginInput, { target: { value: 'abc' } });
+        fireEvent.change(passwordInput, { target: { value: 'pass' } });
         fireEvent.change(repeatPasswordInput, { target: { value: 'pass' } });
 
         expect(loginInput).toHaveClass('border-red-500');

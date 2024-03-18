@@ -20,8 +20,6 @@ describe('Training Class', () => {
             "default",
             "default"
         )
-
-
         training = new Training(sampleTrainingMode);
     });
 
@@ -64,13 +62,12 @@ describe('Training Class', () => {
 
 
     it('should check if move is correct', () => {
-        let result = training.isMoveCorrect([0,2,6,8]);
+        expect(training.isMoveCorrect([0,2,6,8] )).toBe(true);
 
-        expect(result).toBe(true);
-
-        result = training.isMoveCorrect([1, 2, 7]);
-
-        expect(result).toBe(false);
+        expect(training.isMoveCorrect([0,2,6]   )).toBe(false);
+        expect(training.isMoveCorrect([0,2]     )).toBe(false);
+        expect(training.isMoveCorrect([8,2,6,7] )).toBe(false);
+        expect(training.isMoveCorrect([1,4,7,0] )).toBe(false);
     });
 
     it('should check if move includes wrong finger id', () => {
@@ -101,10 +98,21 @@ describe('Training Class', () => {
     });
 
     it('should get X next moves', () => {
-        const result = training.getXNextMoves(3);
-
-        expect(result).toEqual(
+        expect(training.getXNextMoves(1)).toEqual(
             [
+                [0,2,6,8],
+            ]
+        );
+        expect(training.getXNextMoves(2)).toEqual(
+            [
+                [0,2,6,8],
+                [1,3,7,9],
+            ]
+        );
+        expect(training.getXNextMoves(5)).toEqual(
+            [
+                [0,2,6,8],
+                [1,3,7,9],
                 [0,2,6,8],
                 [1,3,7,9],
                 [0,2,6,8],

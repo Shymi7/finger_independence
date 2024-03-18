@@ -2,10 +2,13 @@ import {useEffect, useState} from "react";
 import {LoginForm} from "./LoginForm.tsx";
 import RegisterForm from "./RegisterForm.tsx";
 import {AuthService} from "../utils/AuthService.ts";
+import {KeyboardSettings} from "./KeyboardSettings.tsx";
+import {GlobalBestScores} from "./GlobalBestScores.tsx";
+import {PersonalBestScores} from "./PersonalBestScores.tsx";
 
 export function Header() {
     const [isLogged, setIsLogged] = useState<boolean>(false);
-    const [loginOrRegister, setLoginOrRegister] = useState<string>('none');
+    const [openWindowState, setOpenWindowState] = useState<string>('none');
 
 
     useEffect(() => {
@@ -14,19 +17,19 @@ export function Header() {
 
 
     function handleLoginClick() {
-        if (loginOrRegister == 'login') {
-            setLoginOrRegister('none');
+        if (openWindowState == 'login') {
+            setOpenWindowState('none');
             return;
         }
-        setLoginOrRegister('login');
+        setOpenWindowState('login');
     }
 
     function handleRegisterClick() {
-        if (loginOrRegister == 'register') {
-            setLoginOrRegister('none');
+        if (openWindowState == 'register') {
+            setOpenWindowState('none');
             return;
         }
-        setLoginOrRegister('register');
+        setOpenWindowState('register');
     }
 
     function handleLogOutClick() {
@@ -35,6 +38,30 @@ export function Header() {
     }
 
     function handleUserStatsButton(){
+
+    }
+
+    function handleKeyboardSettingsButton(){
+        if (openWindowState == 'keyboardSettings') {
+            setOpenWindowState('none');
+            return;
+        }
+        setOpenWindowState('keyboardSettings');
+    }
+    function handlePersonalStatsButton(){
+        if (openWindowState == 'personalBestScores') {
+            setOpenWindowState('none');
+            return;
+        }
+        setOpenWindowState('personalBestScores');
+
+    }
+    function handleGlobalStatsButton(){
+        if (openWindowState == 'globalBestScores') {
+            setOpenWindowState('none');
+            return;
+        }
+        setOpenWindowState('globalBestScores');
 
     }
 
@@ -58,6 +85,24 @@ export function Header() {
                     <div className={'flex flex-row'}>
                         <div
                             className={"flex flex-row items-center h-full text-xl self-end px-3 text-white cursor-pointer"}
+                            onClick={handleKeyboardSettingsButton}
+                        >
+                            Settings
+                        </div>
+                        <div
+                            className={"flex flex-row items-center h-full text-xl self-end px-3 text-white cursor-pointer"}
+                            onClick={handleGlobalStatsButton}
+                        >
+                            Global ranking
+                        </div>
+                        <div
+                            className={"flex flex-row items-center h-full text-xl self-end px-3 text-white cursor-pointer"}
+                            onClick={handlePersonalStatsButton}
+                        >
+                            Personal Statistics
+                        </div>
+                        <div
+                            className={"flex flex-row items-center h-full text-xl self-end px-3 text-white cursor-pointer"}
                             onClick={handleUserStatsButton}
                         >
                             {getUserNameFromLocalStorage()}
@@ -75,6 +120,18 @@ export function Header() {
                     <div className={'flex flex-row'}>
                         <div
                             className={"flex flex-row items-center h-full text-xl self-end px-3 text-white cursor-pointer"}
+                            onClick={handleKeyboardSettingsButton}
+                        >
+                            Settings
+                        </div>
+                        <div
+                            className={"flex flex-row items-center h-full text-xl self-end px-3 text-white cursor-pointer"}
+                            onClick={handleGlobalStatsButton}
+                        >
+                            Global ranking
+                        </div>
+                        <div
+                            className={"flex flex-row items-center h-full text-xl self-end px-3 text-white cursor-pointer"}
                             onClick={handleLoginClick}
                         >
                             Login
@@ -89,17 +146,38 @@ export function Header() {
             }
 
 
+            <>
+
+            </>
             {
-                loginOrRegister == 'login' &&
+                openWindowState == 'login' &&
                 <LoginForm loginSetState={() => {
                     setIsLogged(true);
-                    setLoginOrRegister('none');
+                    setOpenWindowState('none');
                 }}/>
             }
             {
-                loginOrRegister == 'register' &&
+                openWindowState == 'register' &&
                 <RegisterForm registerSetState={()=>{
-                    setLoginOrRegister('none');
+                    setOpenWindowState('none');
+                }}/>
+            }
+            {
+                openWindowState == 'keyboardSettings' &&
+                <KeyboardSettings onComponentClose={()=>{
+                    setOpenWindowState('none');
+                }}/>
+            }
+            {
+                openWindowState == 'globalBestScores' &&
+                <GlobalBestScores onComponentClose={()=>{
+                    setOpenWindowState('none');
+                }}/>
+            }
+            {
+                openWindowState == 'personalBestScores' &&
+                <PersonalBestScores onComponentClose={()=>{
+                    setOpenWindowState('none');
                 }}/>
             }
 

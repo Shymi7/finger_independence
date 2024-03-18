@@ -19,8 +19,7 @@ export function KeyWaterfall() {
 
         for (const fingerId of fingerIds) {
             keyElements.push(
-                <div
-                    className={classNames(
+                <div className={classNames(
                         'bg-gray-300 h-full overflow-hidden absolute top-0 right-0',
                         'rounded-lg border-2 border-accent'
                     )}
@@ -30,12 +29,10 @@ export function KeyWaterfall() {
                         left: keyWidthPercent * fingerId + '%'
                     }}
                 >
-                    <div
-                        className={classNames(
+                    <div className={classNames(
                             'bg-gray-300 h-full flex flex-row justify-center items-center',
                             'text-4xl font-bold text-accent-dark',
                         )}
-
                     >
                         {userSettings.convertIndexKeyToKeyBinding(fingerId)}
                     </div>
@@ -59,8 +56,7 @@ export function KeyWaterfall() {
         }))
     }
 
-
-    const Temp = observer(() => {
+    const Waterfall = observer(() => {
         return (
             <div className={'w-full h-full'}>
                 {rowsOfKeys()}
@@ -70,7 +66,7 @@ export function KeyWaterfall() {
 
     return (
         <div className={'h-full'}>
-            <Temp/>
+            <Waterfall/>
         </div>
     )
 }

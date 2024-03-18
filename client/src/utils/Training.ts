@@ -14,6 +14,7 @@ export class Training {
     currentMove: number;
     mistakesMade: number;
     isTrainingEnded: boolean;
+    secondsLeft: number;
 
     pressedKeys: string[];
 
@@ -28,6 +29,7 @@ export class Training {
         this.currentMove = 0;
         this.mistakesMade = 0;
         this.isTrainingEnded = false;
+        this.secondsLeft = this.trainingMode.durationSec;
 
         this.pressedKeys = new Array<string>();
 
@@ -39,6 +41,7 @@ export class Training {
             // isMoveCorrect: computed,
             // getNextStep: computed,
             // getXNextSteps: computed,
+            secondsLeft:observable,
 
             goToNextMove: action,
             finishTraining: action,
@@ -55,6 +58,8 @@ export class Training {
         this.currentMove = 0;
         this.mistakesMade = 0;
         this.isTrainingEnded = false;
+        this.secondsLeft = this.trainingMode.durationSec;
+
 
         this.pressedKeys = new Array<string>();
     }
@@ -90,6 +95,9 @@ export class Training {
 
     startCountdown(){
         this.timeOfStart = Date.now();
+        setInterval(()=>{
+            this.secondsLeft--;
+        }, 1000)
         setTimeout(()=>{
             this.finishTraining();
         }, this.trainingMode.durationSec * 1000)

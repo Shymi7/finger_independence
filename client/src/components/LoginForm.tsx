@@ -40,6 +40,12 @@ export function LoginForm( {loginSetState} : LoginFormProps){
                     'absolute w-1/4 h-96 left-1/3 top-1/4 z-50 flex flex-col justify-start items-center',
                     'bg-dark-custom-light border-4 border-accent-dark rounded-2xl',
                 )}>
+                <button
+                    className={'self-end text-accent font-bold text-2xl mr-4 mt-4'}
+                    onClick={loginSetState}
+                >
+                    X
+                </button>
 
                 <input
                     className={inputStyle}
